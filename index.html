@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Collaboration Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="network.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1 class="text-center my-4">Author Collaboration Network</h1>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="controls">
+                    <h4>Force Parameters</h4>
+
+                    <div class="control-group">
+                        <label>Charge Strength: <span class="value-display" id="chargeValue">-150</span></label>
+                        <input type="range" id="chargeSlider" min="-500" max="-10" value="-150" step="10">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Collision Radius: <span class="value-display" id="collideValue">20</span></label>
+                        <input type="range" id="collideSlider" min="5" max="50" value="20" step="1">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Link Strength: <span class="value-display" id="linkValue">0.1</span></label>
+                        <input type="range" id="linkSlider" min="0" max="1" value="0.1" step="0.05">
+                    </div>
+
+                    <button class="btn btn-primary w-100 mt-3" id="resetBtn">Reset Simulation</button>
+                </div>
+
+                <div class="legend mt-4">
+                    <h5>Top 10 Countries</h5>
+                    <div id="legendContent"></div>
+                    <div class="legend-item mt-3">
+                        <div class="legend-color" style="background-color: #A9A9A9;"></div>
+                        <span>Others</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div id="visualization"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        d3.json("author_network.json").then(function(data) {
+            let svg = d3.select('#visualization')
+                .append("svg")
+                .attr("viewBox", "0 0 1200 800");
+
+            simulate(data, svg); // main function to make network
+        }).catch(error => {
+            console.error("Error loading data:", error);
+            document.getElementById('visualization').innerHTML =
+                '<div style="padding: 50px; text-align: center; color: red;">' +
+                '<h3>Error loading data</h3>' +
+                '<p>Please make sure author_network.json is in the same directory as this HTML file.</p>' +
+                '</div>';
+        });
+    </script>
+</body>
+
+</html>
