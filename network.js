@@ -145,7 +145,7 @@ function simulate(data, svg) {
             [0, 0],
             [width, height]
         ])
-        .scaleExtent([0.5, 8])
+        .scaleExtent([0, 8])
         .on("zoom", zoomed));
 
     function zoomed({ transform }) {
